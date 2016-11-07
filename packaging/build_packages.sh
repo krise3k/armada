@@ -3,7 +3,6 @@ set -e
 set -x
 
 SERVICE_NAME=armada_builder
-ARMADA_SRC_PATH=/projects/armada
 
 #workdir to file directory
 cd "$(dirname "${BASH_SOURCE[0]}")"
@@ -25,7 +24,8 @@ trap stop_builder_containers EXIT HUP INT QUIT PIPE TERM
 
 armada build ${SERVICE_NAME}
 
-CONTAINER_ID=$(armada run "${SERVICE_NAME}" -v "${ARMADA_SRC_PATH}":/opt/armada -d local | grep -oh 'Service is running in container [[:alnum:]]*' | awk '{print $NF}')
+chmod +x build.py
+CONTAINER_ID=$(armada run "${SERVICE_NAME}" -v "$(pwd)/../:/opt/armada" -d local | grep -oh 'Service is running in container [[:alnum:]]*' | awk '{print $NF}')
 sleep 5
 
 armada ssh "$CONTAINER_ID" python3 packaging/build.py --version="${PACKAGE_VERSION}"
