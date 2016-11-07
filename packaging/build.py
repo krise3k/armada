@@ -86,7 +86,7 @@ def create_amazon_linux_package(version):
     rpm = {
         'package_type': 'rpm',
         'depends': ['conntrack-tools', 'net-tools'],
-        'name': 'armada-amazon',
+        'name': 'armada-amzn',
     }
     packaging_options = defaults.copy()
     packaging_options.update(rpm)
