@@ -43,7 +43,6 @@ start_using_initd() {
 
 start_using_systemd() {
     setup_daemon systemd_armada /etc/systemd/system/armada.service
-    $sh_c "systemctl daemon-reload"
     $sh_c "systemctl enable armada.service"
     $sh_c "systemctl restart armada.service"
 }
@@ -182,7 +181,7 @@ if [ ${python_return_code} != 0 ]; then
 fi
 
 # Make sure that config file exists
-$sh_c "touch ${ARMADA_CONFIG_FILE_PATH}"
+touch ARMADA_CONFIG_FILE_PATH
 
 if command_exists systemctl; then
     start_using_systemd

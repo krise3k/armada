@@ -1,4 +1,8 @@
 # Changelog
+## Unreleased
+
+### Features
+- Build deb, rpm and amazon linux package
 
 ## 1.8.0 (2016-11-07)
 
