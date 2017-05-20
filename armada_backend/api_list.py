@@ -11,12 +11,6 @@ from armada_command.consul.consul import consul_query
 
 
 class List(api_base.ApiCommand):
-    @staticmethod
-    def __create_dict_from_tags(tags):
-        if not tags:
-            return {}
-        return dict((tag.split(':', 1) + [None])[:2] for tag in tags)
-
     def GET(self):
         try:
             get_args = web.input(local=False, microservice_name=None, env=None, app_id=None)
@@ -35,7 +29,7 @@ class List(api_base.ApiCommand):
             return self.status_exception("Cannot get the list of services.", e)
 
 
-def _get_running_services(self, filter_microservice_name, filter_env, filter_app_id, filter_local):
+def _get_running_services(filter_microservice_name, filter_env, filter_app_id, filter_local):
     if filter_local:
         local_microservices_ids = set(consul_query('agent/services').keys())
     if filter_microservice_name:
@@ -68,7 +62,7 @@ def _get_running_services(self, filter_microservice_name, filter_env, filter_app
             microservice_id = instance['Service']['ID']
             container_id = microservice_id.split(':')[0]
             microservice_tags = instance['Service']['Tags'] or []
-            microservice_tags_dict = self.__create_dict_from_tags(microservice_tags)
+            microservice_tags_dict = __create_dict_from_tags(microservice_tags)
 
             matches_env = (filter_env is None) or (filter_env == microservice_tags_dict.get('env'))
             matches_app_id = (filter_app_id is None) or (filter_app_id == microservice_tags_dict.get('app_id'))
@@ -92,6 +86,10 @@ def _get_running_services(self, filter_microservice_name, filter_env, filter_app
                 services_list_from_catalog[microservice_id] = microservice_dict
     return services_list_from_catalog
 
+def __create_dict_from_tags(tags):
+    if not tags:
+        return {}
+    return dict((tag.split(':', 1) + [None])[:2] for tag in tags)
 
 def _get_services_list(filter_microservice_name, filter_env, filter_app_id, filter_local):
     consul_key = 'containers_parameters_list'
