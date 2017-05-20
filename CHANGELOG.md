@@ -1,4 +1,24 @@
 # Changelog
+## 1.16.0 (2017-05-18)
+
+We do best effort to support docker versions 1.6.0 - 1.12.1 with this release.
+
+### Features
+- Add `DISTRIB_CODENAME`=xenial and `DISTRIB_RELEASE`=16.04 environmental variables.
+- Add `less` and `sudo` to `microservice`
+- You can now set retention for containers backups stored in `/opt/armada/saved_containers_backup/`. To do that, set
+    `SAVED_CONTAINERS_BACKUP_RETENTION=N` variable (where `N` is integer with number of days stored) in
+    `/etc/default/armada` on host.
+    
+### Improvements
+- Don't install old `gcc` version in `microservice_python3`.
+- Regular cleaning duplicated containers backup in `/opt/armada/saved_containers_backup/`.
+- Optimize armada list.
+
+### Bug fixes
+- Fix autoreloading armada development version.
+- Fix clearing sessions files in PHP Docker container.
+
 
 ## 1.15.1 (2017-05-12)
 
@@ -6,7 +26,7 @@ We do best effort to support docker versions 1.6.0 - 1.12.1 with this release.
 
 ### Bug fixes
 - Fix node version in `microservice_node` image based on Ubuntu 16.04.
-- Add link to php config at /etc/php5 in `microservice_php` for compatibility with pre Ubuntu 16.04 images.
+- Add link to php config at `/etc/php5` in `microservice_php` for compatibility with pre Ubuntu 16.04 images.
 
 ## 1.15.0 (2017-05-08)
 
